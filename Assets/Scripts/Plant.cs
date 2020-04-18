@@ -32,6 +32,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Plant : MonoBehaviour
 {
@@ -89,6 +90,10 @@ public class Plant : MonoBehaviour
             {
                 health += 10;
                 happiness -= 2;
+            }
+            else
+            {
+                SceneManager.LoadScene(1, LoadSceneMode.Single);
             }
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
