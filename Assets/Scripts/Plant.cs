@@ -66,7 +66,7 @@ public class Plant : MonoBehaviour
             health += 5;
         }
 
-        if (moisture >= 0.5f)
+        if (moisture >= 0.5f || moisture <= 0.1f)
         {
             happiness -= 1;
             health -= 10;
@@ -80,13 +80,14 @@ public class Plant : MonoBehaviour
         // A really happy plant will attempt to cling to life
         if (health == 0)
         {
-            float chance = Random.Range(0, happiness);
+            float chance = Random.Range(0, 100.0f);
             if (chance <= happiness)
             {
                 health += 10;
-                happiness -= 1;
+                happiness -= 2;
             }
         }
+        happiness = Mathf.Clamp(happiness, 0, 100);
 
         // Degrade soil quality
         pH -= 0.05f;
