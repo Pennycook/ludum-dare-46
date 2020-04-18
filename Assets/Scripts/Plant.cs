@@ -37,7 +37,7 @@ public class Plant : MonoBehaviour
 {
     // Current state of the plant
     public string given_name = null;
-    public int age = 0;
+    public int age = 1;
     public float pH = 6.95f;
     public float moisture = 0.0f;
     public float health = 100.0f;
