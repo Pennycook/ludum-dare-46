@@ -34,21 +34,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthMonitor : MonoBehaviour
+public class pHMonitor : MonoBehaviour
 {
     public Plant plant;
-    Image leaves;
+    Image bar;
+    Text label;
+
+    // Color values for pH
+    static Color[] colors =
+    {
+        new Color32(237, 27, 37, 255),
+        new Color32(243, 100, 50, 255),
+        new Color32(247, 143, 29, 255),
+        new Color32(255, 195, 35, 255),
+        new Color32(255, 242, 0, 255),
+        new Color32(132, 195, 65, 255),
+        new Color32(77, 183, 73, 255),
+        new Color32(51, 169, 75, 255),
+        new Color32(0, 184, 182, 255),
+        new Color32(10, 184, 182, 255),
+        new Color32(70, 144, 205, 255),
+        new Color32(56, 83, 164, 255),
+        new Color32(90, 81, 162, 255),
+        new Color32(99, 69, 157, 255),
+        new Color32(108, 32, 128, 255),
+        new Color32(74, 23, 110, 255)
+    };
 
     void Start()
     {
-        leaves = GetComponent<Image>();
-        leaves.color = new Color32(0, 255, 0, 255);
+        bar = GetComponent<Image>();
+        label = GetComponentInChildren<Text>();
     }
 
     void Update()
     {
-        int green = 128 + (int) ((plant.health * 127.0f) / 100.0f);
-        int red =  255 - (int) ((plant.health * 255.0f) / 100.0f);
-        leaves.color = new Color32((byte) red, (byte) green, 0, 255);
+        int pH = (int) plant.pH;
+        bar.color = colors[pH];
+        label.text = pH.ToString();
     }
 }
