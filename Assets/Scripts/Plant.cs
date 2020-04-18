@@ -35,12 +35,6 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
-    public enum Fertilizer
-    {
-        Acid,
-        Alkali
-    }
-
     // Current state of the plant
     public string given_name = null;
     public int age = 0;
@@ -49,9 +43,19 @@ public class Plant : MonoBehaviour
     public float health = 100.0f;
     public int happiness = 0;
 
+    // Audio
+    AudioSource sfx;
+    public AudioClip blip_clip;
+    public AudioClip water_clip;
+    public AudioClip error_clip;
+
+    void Start()
+    {
+        sfx = GetComponent<AudioSource>();
+    }
+
     // Update the state of the plant
-    // Return true if the plant is still alive
-    public bool Age()
+    public void Age()
     {
         age += 1;
 
@@ -92,35 +96,41 @@ public class Plant : MonoBehaviour
         // Degrade soil quality
         pH -= 0.05f;
         moisture -= 0.1f;
-
-        return (health >= 0);
+        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        moisture = Mathf.Clamp(moisture, 0.0f, 1.0f);
     }
 
     // Update soil pH based on the chosen fertilizer
-    public void Fertilize(Fertilizer f)
+    public void AcidFertilize()
     {
-        switch (f)
-        {
-            case Fertilizer.Acid:
-                pH -= 0.1f;
-                break;
-
-            case Fertilizer.Alkali:
-                pH += 0.1f;
-                break;
-        }
-        Mathf.Clamp(pH, 0.0f, 14.0f);
+        pH -= 0.1f;
+        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        sfx.PlayOneShot(blip_clip);
+    }
+    public void AlkaliFertilize()
+    {
+        pH += 0.1f;
+        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        sfx.PlayOneShot(blip_clip);
     }
 
     // Increase the soil moisture
-    void Water()
+    public void Water()
     {
-        moisture += 0.1f;
-        Mathf.Clamp(moisture, 0.0f, 1.0f);
+        if (moisture == 1.0f)
+        {
+            sfx.PlayOneShot(error_clip);
+        }
+        else
+        {
+            moisture += 0.1f;
+            moisture = Mathf.Clamp(moisture, 0.0f, 1.0f);
+            sfx.PlayOneShot(water_clip);
+        }
     }
 
     // Talk to the plant
-    void Talk()
+    public void Talk()
     {
         // TODO: Make this show interesting dialogue?
         float chance = Random.Range(0, 100.0f);
@@ -129,6 +139,7 @@ public class Plant : MonoBehaviour
             happiness += (given_name != null) ? 2 : 1;
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
+        sfx.PlayOneShot(blip_clip);
     }
 
 }
