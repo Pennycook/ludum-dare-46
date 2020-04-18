@@ -104,13 +104,13 @@ public class Plant : MonoBehaviour
     public void AcidFertilize()
     {
         pH -= 0.1f;
-        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
     }
     public void AlkaliFertilize()
     {
         pH += 0.1f;
-        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
     }
 
