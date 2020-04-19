@@ -58,6 +58,9 @@ public class Plant : MonoBehaviour
     void Start()
     {
         sfx = GetComponent<AudioSource>();
+
+        // Randomly initialize the pH
+        pH = Random.Range(0.0f, 15.0f);
     }
 
     // Update the state of the plant
@@ -66,7 +69,7 @@ public class Plant : MonoBehaviour
         age += 1;
 
         // Check against ideal soil qualities        
-        if (pH < 6 || pH > 7)
+        if (pH < 6 || pH > 8)
         {
             happiness -= 1;
             health -= 10;
@@ -116,13 +119,13 @@ public class Plant : MonoBehaviour
     // Update soil pH based on the chosen fertilizer
     public void AcidFertilize()
     {
-        pH -= 0.1f;
+        pH -= 0.5f;
         pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
     }
     public void AlkaliFertilize()
     {
-        pH += 0.1f;
+        pH += 0.5f;
         pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
     }

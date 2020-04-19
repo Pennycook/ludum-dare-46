@@ -1966,6 +1966,7 @@ MonoBehaviour:
   blip_clip: {fileID: 8300000, guid: b2efd15228acd76488bb1333e6f4eb97, type: 3}
   water_clip: {fileID: 8300000, guid: 5ff0e5f728153f946823f1c4edd7d4cc, type: 3}
   error_clip: {fileID: 8300000, guid: 54fa59d30550639428c52c60f21a91c3, type: 3}
+  dialogue: {fileID: 1193821480}
 --- !u!82 &1802865873
 AudioSource:
   m_ObjectHideFlags: 0
