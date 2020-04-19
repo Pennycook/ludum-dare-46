@@ -160,7 +160,6 @@ public class Plant : MonoBehaviour
         }
         else
         {
-            Debug.Log(string.Format("{0}", given_name));
             string[] greetings = { "Hello", "Hi", "Hey", "Yo", "G'day", "Howdy", "Good morning", "Good afternoon" };
             string plant_name = given_name.Equals("") ? "plant" : given_name;
             string[] pleasantries = { "How're you?", "What's up?", "How are things?", "How's it hanging?",
