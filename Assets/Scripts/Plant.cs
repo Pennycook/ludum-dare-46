@@ -52,11 +52,13 @@ public class Plant : MonoBehaviour
     public AudioClip error_clip;
 
     // Lazy access to UI
+    public Text header;
     public Text dialogue;
     public Button water_button;
     public Button acid_button;
     public Button alkali_button;
     public Button talk_button;
+    public InputField NameField;
 
     void Start()
     {
@@ -64,6 +66,10 @@ public class Plant : MonoBehaviour
 
         // Randomly initialize the pH
         pH = Random.Range(0.0f, 15.0f);
+
+        // Hide the NameField initially
+        NameField.GetComponent<CanvasGroup>().alpha = 0.0f;
+        NameField.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     // Update the state of the plant
@@ -142,6 +148,9 @@ public class Plant : MonoBehaviour
         {
             alkali_button.interactable = false;
         }
+        dialogue.text = "";
+        NameField.GetComponent<CanvasGroup>().alpha = 0.0f;
+        NameField.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     // Update soil pH based on the chosen fertilizer
@@ -194,9 +203,11 @@ public class Plant : MonoBehaviour
     {
         sfx.PlayOneShot(blip_clip);
         // TODO: Special opening dialogue
-        if (age == 1 && false)
+        if (age == 1)
         {
-
+            dialogue.text = "\"Hmm... Should I give you a name?\"";
+            NameField.GetComponent<CanvasGroup>().alpha = 1.0f;
+            NameField.GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
         else
         {
@@ -232,6 +243,14 @@ public class Plant : MonoBehaviour
             happiness += given_name.Equals("") ? 2 : 1;
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
+    }
+
+    public void Name(string entered)
+    {
+        given_name = NameField.text;
+        header.text = string.Format("<b>Keep {0} Alive</b>", char.ToUpper(given_name[0]) + given_name.Substring(1).ToLower());
+        NameField.GetComponent<CanvasGroup>().alpha = 0.0f;
+        NameField.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
 }
