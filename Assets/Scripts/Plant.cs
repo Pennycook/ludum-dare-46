@@ -44,7 +44,6 @@ public class Plant : MonoBehaviour
     public float moisture = 0.0f;
     public float health = 100.0f;
     public int happiness = 0;
-    private bool talked = false;
 
     // Audio
     AudioSource sfx;
@@ -54,6 +53,10 @@ public class Plant : MonoBehaviour
 
     // Lazy access to UI
     public Text dialogue;
+    public Button water_button;
+    public Button acid_button;
+    public Button alkali_button;
+    public Button talk_button;
 
     void Start()
     {
@@ -109,11 +112,28 @@ public class Plant : MonoBehaviour
         // Degrade soil quality
         pH -= 0.05f;
         moisture -= 0.1f;
-        pH = Mathf.Clamp(pH, 0.0f, 14.0f);
+        pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         moisture = Mathf.Clamp(moisture, 0.0f, 1.0f);
 
-        // Reset variables for the next day
-        talked = false;
+        // Reset buttons for the next day
+        water_button.interactable = true;
+        talk_button.interactable = true;
+        if (pH != 0.0f)
+        {
+            acid_button.interactable = true;
+        }
+        else
+        {
+            acid_button.interactable = false;
+        }
+        if (pH != 15.0f)
+        {
+            alkali_button.interactable = true;
+        }
+        else
+        {
+            alkali_button.interactable = false;
+        }
     }
 
     // Update soil pH based on the chosen fertilizer
@@ -122,12 +142,28 @@ public class Plant : MonoBehaviour
         pH -= 0.5f;
         pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
+        if (pH == 0.0f)
+        {
+            acid_button.interactable = false;
+        }
+        if (pH < 15.0f)
+        {
+            alkali_button.interactable = true;
+        }
     }
     public void AlkaliFertilize()
     {
         pH += 0.5f;
         pH = Mathf.Clamp(pH, 0.0f, 15.0f);
         sfx.PlayOneShot(blip_clip);
+        if (pH == 15.0f)
+        {
+            alkali_button.interactable = false;
+        }
+        if (pH > 0.0f)
+        {
+            acid_button.interactable = true;
+        }
     }
 
     // Increase the soil moisture
@@ -135,7 +171,7 @@ public class Plant : MonoBehaviour
     {
         if (moisture == 1.0f)
         {
-            sfx.PlayOneShot(error_clip);
+            water_button.interactable = false;
         }
         else
         {
@@ -148,14 +184,7 @@ public class Plant : MonoBehaviour
     // Talk to the plant
     public void Talk()
     {
-        // 
-        if (talked)
-        {
-            sfx.PlayOneShot(error_clip);
-            return;
-        }
         sfx.PlayOneShot(blip_clip);
-
         // TODO: Special opening dialogue
         if (age == 1 && false)
         {
@@ -186,6 +215,7 @@ public class Plant : MonoBehaviour
             string message = string.Format("\"{0}, {1}. {2} {3}\"", greetings[g], plant_name, pleasantries[p], questions[q]);
             dialogue.text = message;
         }
+        talk_button.interactable = false;
 
         // Random chance to increase plant happiness
         float chance = Random.Range(0, 100.0f);
@@ -194,7 +224,6 @@ public class Plant : MonoBehaviour
             happiness += given_name.Equals("") ? 2 : 1;
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
-        talked = true;
     }
 
 }

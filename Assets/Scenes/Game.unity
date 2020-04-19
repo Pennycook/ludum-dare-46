@@ -1967,6 +1967,10 @@ MonoBehaviour:
   water_clip: {fileID: 8300000, guid: 5ff0e5f728153f946823f1c4edd7d4cc, type: 3}
   error_clip: {fileID: 8300000, guid: 54fa59d30550639428c52c60f21a91c3, type: 3}
   dialogue: {fileID: 1193821480}
+  water_button: {fileID: 35607301}
+  acid_button: {fileID: 1840923953}
+  alkali_button: {fileID: 1253887134}
+  talk_button: {fileID: 385001123}
 --- !u!82 &1802865873
 AudioSource:
   m_ObjectHideFlags: 0
