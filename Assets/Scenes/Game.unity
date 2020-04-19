@@ -1587,7 +1587,18 @@ MonoBehaviour:
   m_CharacterLimit: 6
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1802865872}
+        m_MethodName: Name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2273,6 +2284,7 @@ MonoBehaviour:
   blip_clip: {fileID: 8300000, guid: b2efd15228acd76488bb1333e6f4eb97, type: 3}
   water_clip: {fileID: 8300000, guid: 5ff0e5f728153f946823f1c4edd7d4cc, type: 3}
   error_clip: {fileID: 8300000, guid: 54fa59d30550639428c52c60f21a91c3, type: 3}
+  header: {fileID: 332648544}
   dialogue: {fileID: 1193821480}
   water_button: {fileID: 35607301}
   acid_button: {fileID: 1840923953}
