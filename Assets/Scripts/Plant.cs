@@ -33,22 +33,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Plant : MonoBehaviour
 {
     // Current state of the plant
-    public string given_name = null;
+    public string given_name = "";
     public int age = 1;
     public float pH = 6.95f;
     public float moisture = 0.0f;
     public float health = 100.0f;
     public int happiness = 0;
+    private bool talked = false;
 
     // Audio
     AudioSource sfx;
     public AudioClip blip_clip;
     public AudioClip water_clip;
     public AudioClip error_clip;
+
+    // Lazy access to UI
+    public Text dialogue;
 
     void Start()
     {
@@ -103,6 +108,9 @@ public class Plant : MonoBehaviour
         moisture -= 0.1f;
         pH = Mathf.Clamp(pH, 0.0f, 14.0f);
         moisture = Mathf.Clamp(moisture, 0.0f, 1.0f);
+
+        // Reset variables for the next day
+        talked = false;
     }
 
     // Update soil pH based on the chosen fertilizer
@@ -137,14 +145,54 @@ public class Plant : MonoBehaviour
     // Talk to the plant
     public void Talk()
     {
-        // TODO: Make this show interesting dialogue?
+        // 
+        if (talked)
+        {
+            sfx.PlayOneShot(error_clip);
+            return;
+        }
+        sfx.PlayOneShot(blip_clip);
+
+        // TODO: Special opening dialogue
+        if (age == 1 && false)
+        {
+
+        }
+        else
+        {
+            Debug.Log(string.Format("{0}", given_name));
+            string[] greetings = { "Hello", "Hi", "Hey", "Yo", "G'day", "Howdy", "Good morning", "Good afternoon" };
+            string plant_name = given_name.Equals("") ? "plant" : given_name;
+            string[] pleasantries = { "How're you?", "What's up?", "How are things?", "How's it hanging?",
+                                      "How are you feeling?", "What's occurring?" };
+            string[] questions = { "Are you thirsty?", "Do you need more water?", "How's your soil doing?",
+                                   "Do you like your soil?",
+                                   "Did you just wave at me?",
+                                   "What's your favorite fertilizer?",
+                                   string.Format("Is {0} good?", (int) pH),
+                                   "Am I watering you too much?",
+                                   "Am I watering you too often?",
+                                   "What's Granddad got against instructions, anyway?",
+                                   "What is the meaning of life?",
+                                   "Are you having fun?",
+                                   "If God is all knowing, why does he allow evil?",
+                                   "How about those Knicks?", "Did you see the game last night?", "Am I doing this right?",
+                                   "Are you supposed to be that color?" };
+            int g = Random.Range(0, greetings.Length);
+            int p = Random.Range(0, pleasantries.Length);
+            int q = Random.Range(0, questions.Length);
+            string message = string.Format("\"{0}, {1}. {2} {3}\"", greetings[g], plant_name, pleasantries[p], questions[q]);
+            dialogue.text = message;
+        }
+
+        // Random chance to increase plant happiness
         float chance = Random.Range(0, 100.0f);
         if (chance <= 10.0f)
         {
-            happiness += (given_name != null) ? 2 : 1;
+            happiness += given_name.Equals("") ? 2 : 1;
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
-        sfx.PlayOneShot(blip_clip);
+        talked = true;
     }
 
 }
