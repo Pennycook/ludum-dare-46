@@ -109,6 +109,14 @@ public class Plant : MonoBehaviour
         }
         happiness = Mathf.Clamp(happiness, 0, 100);
 
+        // If the plant survived for 365 days...
+        if (age == 365)
+        {
+            GameState.plant_name = given_name.Equals("") ? "plant" : given_name;
+            GameState.plant_happiness = happiness;
+            SceneManager.LoadScene(2, LoadSceneMode.Single);
+        }
+
         // Degrade soil quality
         pH -= 0.05f;
         moisture -= 0.1f;
